@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "NPC.h"
 
 using namespace std;
 
@@ -12,8 +13,9 @@ public:
 	string asciiImageOfLocation;
 	string textPrintedAtLocation;
 	vector<string> optionsPrintedAtLocation;
+	NPC npc;
 
-	Location(string newLocationName, string newAsciiImageOfLocation, string newTextPrintedAtLocation, vector<string> newOptionsPrintedAtLocation);
+	Location(string newLocationName, string newAsciiImageOfLocation, string newTextPrintedAtLocation, vector<string> newOptionsPrintedAtLocation, NPC newNPC);
 
 	void print_location();
 };

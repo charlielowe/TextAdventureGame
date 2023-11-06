@@ -1,6 +1,6 @@
 #pragma once
 #include "Location.h"
-
+#include "Declerations.h"
 
 //----------------------------------------------------------------------------------------
 
@@ -50,23 +50,27 @@ Location park = Location("Park", R"(...::.......................................
 .===================================================--@@-=+++++++++++++++++++++++++++++++++:@@@==-=================================================:#-=.
 .===================================================-:.:-+*********************************=::::-==================================================:#-=.
 ........................................................................................................................................................)", 
-"You walk into a park, it has a bench and some trees...", { "House"});
+"You walk into a park, it has a bench and some trees...", {"Town", "House"}, emtpy);
 
 //----------------------------------------------------------------------------------------
 
-Location house = Location("House", "(O_O)", "You come across your house. It is a small damp appartment.", { "Park", "Bar", "HouseInside"});
+Location house = Location("House", "(O_O)", "You come across your house. It is a small damp appartment.", { "Park", "Bar", "HouseInside"}, emtpy);
 
 //----------------------------------------------------------------------------------------
 
-Location bar = Location("Bar", "| B A R |", "You come across a bar, it looks very busy inside.", { "House", "BarInside"});
+Location bar = Location("Bar", "| B A R |", "You come across a bar, it looks very busy inside.", { "House", "BarInside"}, GoldSpandexMan);
 
 //----------------------------------------------------------------------------------------
 
-Location houseInside = Location("HouseInside", "| H O U S E  I N S I D E |", "You go inside your appartment. You are in the kitchen.", { "House"});
+Location houseInside = Location("HouseInside", "| H O U S E  I N S I D E |", "You go inside your appartment. You are in the kitchen.", { "House"}, emtpy);
 
 //----------------------------------------------------------------------------------------
 
-Location barInside = Location("BarInside", "| B A R  I N S I D E |", "You go inside the bar, it is very busy.", { "Bar"});
+Location barInside = Location("BarInside", "| B A R  I N S I D E |", "You go inside the bar, it is very busy.", { "Bar"}, emtpy);
+
+//----------------------------------------------------------------------------------------
+
+Location town = Location("Town", "| T O W N |", "You go into the town", { "Park" }, SilverSpandexMan);
 
 
 
@@ -74,4 +78,4 @@ Location barInside = Location("BarInside", "| B A R  I N S I D E |", "You go ins
 //----------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------
 
-vector<Location> listOfLocations = { park, house, bar, houseInside, barInside };
+vector<Location> listOfLocations = { town, park, house, bar, houseInside, barInside };

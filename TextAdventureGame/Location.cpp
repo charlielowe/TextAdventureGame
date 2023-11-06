@@ -1,10 +1,13 @@
 #include "Location.h"
-Location::Location(string newLocationName, string newAsciiImageOfLocation, string newTextPrintedAtLocation, vector<string> newOptionsPrintedAtLocation)
+#include "NPC.h"
+
+Location::Location(string newLocationName, string newAsciiImageOfLocation, string newTextPrintedAtLocation, vector<string> newOptionsPrintedAtLocation, NPC newNPC)
 {
     this->locationName = newLocationName;
     this->asciiImageOfLocation = newAsciiImageOfLocation;
     this->textPrintedAtLocation = newTextPrintedAtLocation;
     this->optionsPrintedAtLocation = newOptionsPrintedAtLocation;
+    this->npc = newNPC;
 }
 
 void Location::print_location()
@@ -16,6 +19,10 @@ void Location::print_location()
     cout << "Choose an option: " << '\n';
     for (auto option : this->optionsPrintedAtLocation) {
         cout << option << '\n';
+    }
+
+    if (npc.npcName != "" && npc.defeated == false) {
+        cout << "Talk to " << npc.npcName << endl;
     }
     cout << '\n';
 }
