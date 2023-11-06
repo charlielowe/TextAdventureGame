@@ -14,6 +14,34 @@ NPC::NPC(std::string newNpcName, int newNpcLevel, std::function<int()> dialogueF
 
 }
 
+std::string NPC::get_npc_name() {
+	return this->npcName;
+}
+
+int NPC::get_npc_level() {
+	return this->npcLevel;
+}
+
+int NPC::get_npc_health() {
+	return this->npcHealth;
+}
+
+int NPC::get_npc_damage() {
+	return this->npcDamage;
+}
+
+int NPC::get_npc_dialogue_func(){
+	return this->npcDialogueFunction();
+}
+
+bool NPC::get_npc_defeated() {
+	return this->defeated;
+}
+
+void NPC::set_npc_defeated(bool isDefeated) {
+	this->defeated = isDefeated;
+}
+
 void NPC::print_npc_info() {
 	std::cout << "Name: " << npcName << "\n";
 	std::cout << "Level: " << npcLevel << "\n";
