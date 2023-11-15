@@ -1,6 +1,7 @@
 #pragma once
 #include "Location.h"
 #include "NPC.h"
+#include "Player.h"
 
 
 Location make_choice();
@@ -14,5 +15,5 @@ int bobDialogue();
 NPC GoldSpandexMan = NPC("GoldSpandexMan", 3, GoldSpandexManDialogue);
 NPC Bob = NPC("Bob", 100, bobDialogue);
 
-
 NPC emtpy = NPC("", 0, 0);
+

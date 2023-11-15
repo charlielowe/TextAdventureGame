@@ -62,15 +62,15 @@ Location bar = Location("Bar", "| B A R |", "You come across a bar, it looks ver
 
 //----------------------------------------------------------------------------------------
 
-Location houseInside = Location("HouseInside", "| H O U S E  I N S I D E |", "You go inside your appartment. You are in the kitchen.", { "House"}, &emtpy);
+Location houseInside = Location("HouseInside", "| H O U S E  I N S I D E |", "You go inside your appartment. You are in the kitchen.", { "House"}, &Bob);
 
 //----------------------------------------------------------------------------------------
 
-Location barInside = Location("BarInside", "| B A R  I N S I D E |", "You go inside the bar, it is very busy.", { "Bar"}, &emtpy);
+Location barInside = Location("BarInside", "| B A R  I N S I D E |", "You go inside the bar, it is very busy.", { "Bar"}, &emtpy, true, "barKey");
 
 //----------------------------------------------------------------------------------------
 
-Location town = Location("Town", "| T O W N |", "You go into the town", { "Park" }, &Bob);
+Location town = Location("Town", "| T O W N |", "You go into the town", { "Park" }, &emtpy, true, "townKey");
 
 //----------------------------------------------------------------------------------------
 
