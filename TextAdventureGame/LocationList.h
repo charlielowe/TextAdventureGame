@@ -50,33 +50,33 @@ Location park = Location("Park", R"(...::.......................................
 .===================================================--@@-=+++++++++++++++++++++++++++++++++:@@@==-=================================================:#-=.
 .===================================================-:.:-+*********************************=::::-==================================================:#-=.
 ........................................................................................................................................................)", 
-"You walk into a park, it has a bench and some trees...", {"Town", "House"}, &emtpy);
+"You walk into a park, it has a bench and some trees...", { "Town", "House" }, &defaultNPC);
 
 //----------------------------------------------------------------------------------------
 
-Location house = Location("House", "(O_O)", "You come across your house. It is a small damp appartment.", { "Park", "Bar", "HouseInside"}, &emtpy);
+Location house = Location("House", "(O_O)", "You come across your house. It is a small damp appartment.", { "Park", "Bar", "HouseInside" }, &defaultNPC);
 
 //----------------------------------------------------------------------------------------
 
-Location bar = Location("Bar", "| B A R |", "You come across a bar, it looks very busy inside.", { "House", "BarInside"}, &GoldSpandexMan);
+Location bar = Location("Bar", "| B A R |", "You come across a bar, it looks very busy inside.", { "House", "BarInside" }, &GoldSpandexMan);
 
 //----------------------------------------------------------------------------------------
 
-Location houseInside = Location("HouseInside", "| H O U S E  I N S I D E |", "You go inside your appartment. You are in the kitchen.", { "House"}, &Bob);
+Location houseInside = Location("HouseInside", "| H O U S E  I N S I D E |", "You go inside your appartment. You are in the kitchen.", { "House" }, &Bob);
 
 //----------------------------------------------------------------------------------------
 
-Location barInside = Location("BarInside", "| B A R  I N S I D E |", "You go inside the bar, it is very busy.", { "Bar"}, &emtpy, true, "barKey");
+Location barInside = Location("BarInside", "| B A R  I N S I D E |", "You go inside the bar, it is very busy.", { "Bar" }, &defaultNPC, true, "barKey");
 
 //----------------------------------------------------------------------------------------
 
-Location town = Location("Town", "| T O W N |", "You go into the town", { "Park" }, &emtpy, true, "townKey");
+Location town = Location("Town", "| T O W N |", "You go into the town", { "Park", "Dungeon"}, &Fred, true, "townKey");
 
 //----------------------------------------------------------------------------------------
 
-
+Location dungeon = Location("Dungeon", "| D U N G E O N |", "You are in a scary dungeon!", { "town" }, &defaultNPC, true, "dungeonKey");
 
 //----------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------
 
-vector<Location> listOfLocations = { town, park, house, bar, houseInside, barInside };
+vector<Location> listOfLocations = { town, park, house, bar, houseInside, barInside, dungeon };

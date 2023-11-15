@@ -170,4 +170,20 @@ int bobDialogue() { // Specific NPC dialogue function
     }
 }
 
+int fredDialogue() { // Specific NPC dialogue function
+    cout << "Hi I'm Fred" << endl;
+    cin.clear();
+    string choice;
+    getline(cin, choice);
+    if (choice == "defeat") {
+        player.add_to_inventory("dungeonKey");
+        type_text("You have gained +1 dungeonKey");
+        cout << "\n" << "Press a key to continue...";
+        cout << _getch();
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
 
