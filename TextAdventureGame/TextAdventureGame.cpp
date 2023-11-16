@@ -19,7 +19,7 @@ using namespace std;
 
 Location currentLocation = house; // Set a variable called currentLocation to the location that I want the game to start in (check LocationList.h to see locations)
 string playerName;
-Player player = Player("playerName", 0, 100, {});
+Player player = Player("playerName", 100, 1, {});
 
 int main()
 {
@@ -134,18 +134,211 @@ bool encounter_npc(NPC npc) { // Function to be ran when the player talks to an 
     
 }
 
+string battle(NPC opponent)
+{
+    string result;
+    while (opponent.get_npc_health() > 0)
+    {
+        system("cls");
+        cout << "Name: " << player.get_player_name() << " | Health: " << player.get_player_health() << " | Level: " << player.get_player_level() << endl;
+        this_thread::sleep_for(chrono::milliseconds(100));
+        cout << endl;
+        cout << "VS" << endl;
+        cout << endl;
+        this_thread::sleep_for(chrono::milliseconds(100));
+        cout << "Name: " << opponent.get_npc_name() << " | Health: " << opponent.get_npc_health() << " | Level: " << opponent.get_npc_level() << endl;
+        cout << endl;
+        int playerDamage = player.get_player_level() * 5;
+        int oppDamage;
+
+        this_thread::sleep_for(chrono::milliseconds(100));
+
+        auto item = danceMoves.begin();
+        advance(item, rand() % danceMoves.size());
+        string randomKey = item->first;
+        oppDamage = (item->second) * opponent.get_npc_level();
+        type_text(opponent.get_npc_name() + " uses " + randomKey);
+        cout << endl;
+        cout << endl;
+        this_thread::sleep_for(chrono::milliseconds(100));
+
+        int dodgeChance = rand() % 100;
+        if (dodgeChance < 20)
+        {
+            type_text("You closed your eyes just in time to avoid looking at your opponents sick moves, you don't take any damage");
+            cout << endl;
+            cout << endl;
+        }
+        else
+        {
+            type_text("Your opponent's moves were too fire, you take " + to_string(oppDamage) + " damage!");
+            cout << endl;
+            cout << endl;
+            player.set_player_health(player.get_player_health() - oppDamage);
+            type_text("Your health is now " + to_string(player.get_player_health()));
+            cout << endl;
+            cout << endl;
+
+            if (player.get_player_health() <= 0) {
+                this_thread::sleep_for(chrono::milliseconds(100));
+                type_text("You have been defeated...");
+                result = "lost";
+                break;
+            }
+        }
+        this_thread::sleep_for(chrono::milliseconds(100));
+
+        int attackChoice = attack();
+        this_thread::sleep_for(chrono::milliseconds(100));
+        cout << endl;
+        cout << endl;
+        if (attackChoice == 1)
+        {
+            type_text("You deal " + to_string(playerDamage) + " damage to " + opponent.get_npc_name());
+            opponent.set_npc_health(opponent.get_npc_health() - playerDamage);
+            cout << endl;
+            cout << endl;
+            type_text("Your opponent's health is now " + to_string(opponent.get_npc_health()));
+        }
+        else if (attackChoice == 2)
+        {
+            if (rand() % 10 > 5) {
+                if (player.get_player_health() < 100) {
+                    type_text("You successfully healed yourself for " + to_string(player.get_player_level() * 10) + " health");
+                    player.set_player_health(player.get_player_health() + 10);
+                }
+                else {
+                    type_text("You are already at full health");
+                }
+            }
+            else {
+                type_text("Your dance moves weren't good enough, you were unsuccessful in healing yourself.");
+            }
+        }
+        else if (attackChoice == 3) {
+            if (rand() % 10 > 1) {
+                type_text("You performed the running man and ran away");
+                cout << endl;
+                cout << endl;
+                this_thread::sleep_for(chrono::milliseconds(100));
+                type_text("You have been healed back to 100 health");
+                cout << endl;
+                cout << endl;
+                this_thread::sleep_for(chrono::milliseconds(100));
+                player.set_player_health(100);
+                break;
+            }
+            else {
+                type_text("You didn't running man fast enough, you failed to escape");
+            }
+        }
+
+        if (opponent.get_npc_health() <= 0) {
+            cout << endl;
+            cout << endl;
+            this_thread::sleep_for(chrono::milliseconds(100));
+            type_text("You have defeated " + opponent.get_npc_name() + " with your sick dance moves!");
+            cout << endl;
+            cout << endl;
+            this_thread::sleep_for(chrono::milliseconds(100));
+            type_text("You have been healed back to 100 health");
+            player.set_player_health(100);
+            result = "won";
+        }
+        this_thread::sleep_for(chrono::milliseconds(100));
+        cout << endl;
+        cout << endl;
+        cout << "Press a key to continue" << endl;
+        cout << _getch();
+        system("cls");
+    }
+
+    if (result == "lost") {
+        return "lost";
+    }
+    else if (result == "won") {
+        return "won";
+    }
+    else {
+        return " ";
+    }
+
+}
+
+int attack()
+{
+    int choice;
+
+    while (true)
+    {
+        type_text("Choose a move:");
+        cout << endl;
+        cout << endl;
+
+        cout << "Worm (attack)" << endl;
+        this_thread::sleep_for(chrono::milliseconds(300));
+        cout << "Shuffle (chance to heal)" << endl;
+        this_thread::sleep_for(chrono::milliseconds(300));
+        cout << "Running Man (chance to run away)" << endl;
+        this_thread::sleep_for(chrono::milliseconds(300));
+
+        cout << endl;
+
+        string playerChoice;
+        cout << "Choice (Enter a number from 1-3): ";
+        getline(cin >> ws, playerChoice);
+
+        this_thread::sleep_for(chrono::milliseconds(100));
+        if (playerChoice == "1" or playerChoice == "2" or playerChoice == "3")
+        {
+            choice = stoi(playerChoice);
+            cout << endl;
+            cout << endl;
+            break;
+        }
+        else
+        {
+            type_text("That isn't a number between 1 and 3... try again.");
+            cout << endl;
+            cout << endl;
+        }
+    }
+
+    if (choice == 1)
+    {
+        type_text("You chose Worm. You drop on the floor and wiggle like there's no tomorrow.");
+        this_thread::sleep_for(chrono::milliseconds(100));
+    }
+    else if (choice == 2)
+    {
+        type_text("You chose Shuffle. You do your best impression of the penguin from happy feet.");
+        this_thread::sleep_for(chrono::milliseconds(100));
+    }
+    else if (choice == 3)
+    {
+        type_text("You chose Running Man. You attempt to flee the scene... in style.");
+        this_thread::sleep_for(chrono::milliseconds(100));
+    }
+    return choice;
+}
+
+
 int GoldSpandexManDialogue(){ // Specific NPC dialogue function. Each NPC has their own dialogue function containing outputs and inputs allowing the player to have a conversation with the NPC.
     type_text("Hey, you there! I'm gold spandex man! Fight me!");
     cout << endl;
     cin.clear();
-    string choice;
-    getline(cin, choice);
-    if (choice == "defeat") { 
+    string battleResult = battle(GoldSpandexMan);
+    if (battleResult == "won") {
         player.add_to_inventory("barKey"); // Add the "BarKey" item to the player's inventory
         type_text("You have gained +1 barKey");
         cout << "\n" << "Press a key to continue...";
         cout << _getch();
         return 1; // Returning 1 means the NPC is defeated, which is checked by encounter_npc() on line 74, which ultimately sets the "defeated" variable of the current npc to true on line 38
+    }
+    else if(battleResult == "lost") {
+        cout << "YOU HAVE LOST" << endl;
+        _getch();
+        return 0;
     }
     else {
         return 0;
