@@ -18,7 +18,6 @@ using namespace std;
 // Variables and functions are declared in "Declerations.h"
 
 Location currentLocation = house; // Set a variable called currentLocation to the location that I want the game to start in (check LocationList.h to see locations)
-string playerName; // String variable for the player's name
 Player player = Player("playerName", 100, 5, {"Useless piece of string"}); // Creates an instance of the player class called player and sets the values
 int sleepTime = 1000; // A varaible that is passed into the sleep_for() function throughout the program
 
@@ -43,6 +42,7 @@ int main()
     cout << "(Please play using full screen)" << endl;
     cout << endl;
     cout << "Enter your name: "; // Ask for the player's name
+    string playerName; // String variable for the player's name
     getline(cin >> ws, playerName); // Take in the user's input
     player.set_player_name(playerName); // Set the player's name to whatever they inputted
     cout << endl;
@@ -228,7 +228,10 @@ string battle(NPC opponent) // Function to start a turn based battle with an NPC
             if (rand() % 10 >= 5) { // A 50/50 chance to run this line
                 if (player.get_player_health() < 100) { // If the player isn't already at full health
                     type_text("You successfully healed yourself for " + to_string(player.get_player_level() * 10) + " health"); // Output that you healed yourself for 10 times your level
-                    player.set_player_health(player.get_player_health() + 10); // Increase the player's health
+                    player.set_player_health(player.get_player_health() + (player.get_player_level() * 10)); // Increase the player's health
+                    if (player.get_player_health() > 100) { // If the player's health is now over 100
+                        player.set_player_health(100); // Set it back to 100
+                    }
                 }
                 else {
                     type_text("You are already at full health"); // If the player is at full health, tell the player and do nothing
@@ -239,7 +242,7 @@ string battle(NPC opponent) // Function to start a turn based battle with an NPC
             }
         }
         else if (attackChoice == 3) { // If the choice was 3
-            if (rand() % 10 == 1) { // 10% chance to run this line
+            if (rand() % 10 >= 7) { // 30% chance to run this line
                 type_text("You performed the running man and ran away"); // Tell the player the move was successful
                 cout << endl;
                 cout << endl;
@@ -310,7 +313,6 @@ int attack() // Function that runs when the player attacks in the battle functio
         {
             choice = stoi(playerChoice); // Convert the input to an int. Reason for doing this instead of taking an int as an input is if the player enters a string when the input type is int it causes problems
             cout << endl;
-            cout << endl;
             break; // Breaks out of the while loop
         }
         else
@@ -340,19 +342,19 @@ int attack() // Function that runs when the player attacks in the battle functio
 }
 
 void level_up() { // Function to level up the player
-    type_text("What this?..."); // Text for dramatic effect with pauses
+    type_text("What this?..."); // Text for dramatic effect with pauses7
     this_thread::sleep_for(chrono::milliseconds(sleepTime));
     cout << endl;
     type_text("You feel your dance moves improving!...");
     this_thread::sleep_for(chrono::milliseconds(sleepTime));
     cout << endl;
     type_text("You have levelled up!");
-    
-    cout << endl;
     player.set_player_level(player.get_player_level() + 1); // Increment the player's level by 1
     this_thread::sleep_for(chrono::milliseconds(sleepTime));
-    type_text("You are now level " + player.get_player_level()); // Output the player's new level
     cout << endl;
+    cout << endl;
+    cout << "You are now level " << player.get_player_level() << endl; // Output the player's new level
+    this_thread::sleep_for(chrono::milliseconds(sleepTime));
     cout << endl;
     cout << "Press a key to continue." << endl; // Pause the program until the player presses a key
     cin.clear();
@@ -383,12 +385,13 @@ int shady_man_dialogue(){ // Specific NPC dialogue function. Each NPC has their 
     type_text("Shady Man: What you lookin at? punk."); 
     cout << endl;
     cout << endl;
-    cout << "Choose a response: (type the option you want to say)." << endl;
-    cout << endl;
-    cout << "Your beautiful face kind sir" << endl;
-    cout << "Give me your key" << endl;
-    cout << "FIGHT ME COWARD" << endl;
+    
     while (true) { // Infinite loop
+        cout << "Choose a response: (type the option you want to say)." << endl;
+        cout << endl;
+        cout << "Your beautiful face kind sir" << endl;
+        cout << "Give me your key" << endl;
+        cout << "FIGHT ME COWARD" << endl;
         cout << endl;
         cout << "Enter your choice: "; // Ask the player for input
         string playerChoice; // Variable for the player's choice

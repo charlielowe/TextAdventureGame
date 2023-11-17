@@ -6,7 +6,7 @@
 
 //----------------------------------------------------------------------------------------
 
-Location house = Location("House", "(O_O)", "You are inside your house. It is a small damp appartment.", { "Street" }, &defaultNPC);
+Location house = Location("House", "| H O U S E |", "You are inside your house. It is a small damp appartment.", { "Street" }, &defaultNPC);
 
 //----------------------------------------------------------------------------------------
 

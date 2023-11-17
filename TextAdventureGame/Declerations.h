@@ -20,7 +20,7 @@ map<string, int> danceMoves = { {"Box Step", 5}, {"Floss", 4}, {"Moon Walk", 6},
 
 
 NPC shadyMan = NPC("Shady Man", 3, shady_man_dialogue);
-NPC bigWarehouseBoss = NPC("Big Warehouse Boss", 5, warehouse_boss_dialogue);
+NPC bigWarehouseBoss = NPC("Big Warehouse Boss", 7, warehouse_boss_dialogue);
 
 NPC defaultNPC = NPC("", 0, 0);
 
