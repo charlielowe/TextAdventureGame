@@ -44,7 +44,6 @@ void Location::print_location()
         cout << "Talk to " << (*npc).get_npc_name() << endl;
     }
     cout << "Check inventory" << endl;
-    cout << '\n';
 }
 
 bool Location::get_locked() {

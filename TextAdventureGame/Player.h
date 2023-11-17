@@ -21,7 +21,6 @@ public:
 	void set_player_health(int playerHealth);
 	void set_player_level(int playerLevel);
 	void add_to_inventory(std::string item);
-	void remove_from_inventory(std::string item);
 
 
 };

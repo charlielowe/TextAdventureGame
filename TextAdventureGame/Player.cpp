@@ -38,7 +38,3 @@ void Player::set_player_level(int playerLevel) {
 void Player::add_to_inventory(std::string item) {
 	this->playerInventory.push_back(item);
 }
-
-void Player::remove_from_inventory(std::string item) {
-	//this->playerInventory.erase(playerInventory[item]);
-}
