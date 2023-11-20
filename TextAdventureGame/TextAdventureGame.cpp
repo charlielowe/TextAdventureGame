@@ -23,6 +23,8 @@ int sleepTime = 1000; // A varaible that is passed into the sleep_for() function
 
 int main()
 {
+    set_text_delay_time();
+    system("cls");
     cout << R"(
 
     ,o888888o.  `8.`8888.      ,8' 8 888888888o   8 8888888888   8 888888888o.             8 8888888888   8 8888      88 b.             8 8 8888     ,88'
@@ -40,6 +42,7 @@ int main()
         )" << '\n';
     cout << endl;
     cout << "(Please play using full screen)" << endl;
+    
     cout << endl;
     cout << "Enter your name: "; // Ask for the player's name
     string playerName; // String variable for the player's name
@@ -56,6 +59,35 @@ int main()
     
 }
 
+void set_text_delay_time() {
+
+    cout << endl;
+    cout << "Would you like the text to be printed one character at a time for dramatic effect, or all at once for if you don't have much time?" << endl; // Ask the player if they would like the text to be printed one character at a time or all at once
+    cout << endl;
+    cout << "Enter 1 for the text to be printed one character at a time." << endl;
+    cout << endl;
+    cout << "Enter 2 for the text to be printed all at once." << endl;
+    cout << endl;
+    
+    while (true) { // While loop
+        cout << "Enter choice: "; // Ask for the player's choice
+        string textDelayChoice; // String variable for the player's choie
+        getline(cin >> ws, textDelayChoice); // Take in the user's input
+        if (textDelayChoice == "1") { // If the user inputted 1
+            textDelayTime = 30; // Set the textDelayTime to 30. This variable is used in the type_text() function
+            break; // Break out of the while loop
+        }
+        else if (textDelayChoice == "2") { // If the user inputted 2
+            textDelayTime = 0; // Set the textDelayTime to 0
+            break;
+        }
+        else {
+            cout << endl;
+            cout << "That isn't an option. Try again." << endl;
+        }
+    }
+}
+
 Location make_choice() { // Function to take user input, do different things depending on input, and then return what the new currentLocation is
     string playerChoice; // String for player input
     bool optionFound = false; // boolean to say if what the player inputted was one of the options available to them
@@ -65,7 +97,10 @@ Location make_choice() { // Function to take user input, do different things dep
         cout << "\n" << "Enter your choice: ";
         
         getline(cin, playerChoice); // Takes player input
-        if (playerChoice == "Talk to " + (*currentLocation.get_npc()).get_npc_name() && (*currentLocation.get_npc()).get_npc_defeated() == false) { // If the player inputs "talk to" and then the name of the npc at the current location, and the npc isn't defeated, run the following code
+        transform(playerChoice.begin(), playerChoice.end(), playerChoice.begin(), ::tolower); // Set it to lowercase so it doesn't matter if the user inputs capitals or not
+        string currentNpcName = (*currentLocation.get_npc()).get_npc_name(); // Create a variable for the current NPC's name
+        transform(currentNpcName.begin(), currentNpcName.end(), currentNpcName.begin(), ::tolower); // Set it to lowercase as well to compare to the user input
+        if (playerChoice == "talk to " + currentNpcName && (*currentLocation.get_npc()).get_npc_defeated() == false) { // If the player inputs "talk to" and then the name of the npc at the current location, and the npc isn't defeated, run the following code
             
             if (encounter_npc((*currentLocation.get_npc())) == true) { // Runs the encounter_npc() function using the current npc as a parameter and checks if the function returns true
 
@@ -76,9 +111,12 @@ Location make_choice() { // Function to take user input, do different things dep
         }
         else{
             for (auto location : currentLocation.get_options()){ // Inside the "LocationList.h" file, when declaring new instances of the location class, a vector of strings is inputted which is printed out later to tell the user what their options are (which locations they can move to). This line loops through that vector
+                transform(location.begin(), location.end(), location.begin(), ::tolower); // Sets the item in the get_options array to lowercase as I set the playerChoice variable to lowercase earlier, and this way it doesn't matter if the user enters caps or not as both the input and option are being set to lowercase
                 if (playerChoice == location) { // Checks to see if what the user inputted is actually one of the options pritned out for them
                     for (auto &loc : listOfLocations){ // Loops through a vector ListOfLocations which is declared in "LocationList.h". This stores the instances of the location class
-                        if (playerChoice == loc.get_location_name()) { // Find out which location the user inputted
+                        string currentLocationName = loc.get_location_name(); // Create a variable for the name of the current location
+                        transform(currentLocationName.begin(), currentLocationName.end(), currentLocationName.begin(), ::tolower); // Set it to lowercase as well
+                        if (playerChoice == currentLocationName) { // Find out which location the user inputted
                             optionFound = true; // Sets optionFound to true
                             if (loc.get_locked() == false) { // If the location isn't locked
                                 currentLocation = loc; // Sets the current location to that location
@@ -110,7 +148,7 @@ Location make_choice() { // Function to take user input, do different things dep
                 }
             }
         }
-        if (playerChoice == "Check inventory") { // If the player chooses to check their inventory
+        if (playerChoice == "check inventory") { // If the player chooses to check their inventory
             cout << "\n";
             for (auto item : player.get_player_inventory()) { // Loops through the inventory
                 cout << item << "\n"; // Prints out each item
@@ -139,9 +177,8 @@ void type_text(const string& text) // Function to output text one character at a
         // output one character
         // flush to make sure the output is not delayed
         cout << text[i] << flush;
-
-        // sleep 30 milliseconds
-        this_thread::sleep_for(chrono::milliseconds(30));
+       
+        this_thread::sleep_for(chrono::milliseconds(textDelayTime)); // sleep 30 milliseconds or 0 milliseconds depending on what the user chose at the start of the game when the set_text_delay_time() function ran
     }
 }
 
@@ -397,9 +434,10 @@ int shady_man_dialogue(){ // Specific NPC dialogue function. Each NPC has their 
         string playerChoice; // Variable for the player's choice
         cin.clear();
         getline(cin, playerChoice); // Take input
-        transform(playerChoice.begin(), playerChoice.end(), playerChoice.begin(), ::tolower); // Set it to lowercase 
+        transform(playerChoice.begin(), playerChoice.end(), playerChoice.begin(), ::tolower); // Set it to lowercase so it doesn't matter if the user inputted capitals or not
         if (playerChoice == "your beautiful face kind sir") { // If the first option was chosen
             type_text("Shady Man: Why... thank you *blushes*... I still ain't giving you this key though!"); // Output text and go back to the start of the while loop
+            cout << endl;
             cout << endl;
         }
         else if(playerChoice == "give me your key") { // If the second option was chosen

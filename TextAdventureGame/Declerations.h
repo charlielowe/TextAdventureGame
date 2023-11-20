@@ -4,8 +4,10 @@
 #include "Player.h"
 #include <map>
 
-Location make_choice();
+int textDelayTime;
 
+Location make_choice();
+void set_text_delay_time();
 bool encounter_npc(NPC npc);
 string battle(NPC opponent);
 int attack();
