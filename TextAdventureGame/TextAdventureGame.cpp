@@ -18,7 +18,7 @@ using namespace std;
 // Variables and functions are declared in "Declerations.h"
 
 Location currentLocation = house; // Set a variable called currentLocation to the location that I want the game to start in (check LocationList.h to see locations)
-Player player = Player("playerName", 100, 5, {"Useless piece of string"}); // Creates an instance of the player class called player and sets the values
+Player player = Player("playerName", 100, 2, {"Useless piece of string"}); // Creates an instance of the player class called player and sets the values
 int sleepTime = 1000; // A varaible that is passed into the sleep_for() function throughout the program
 
 int main()
@@ -59,10 +59,12 @@ int main()
     
 }
 
-void set_text_delay_time() {
-
+// Function to let the player choose if they want the text to be printed one character at a time or all at once
+void set_text_delay_time() { 
+    textDelayTime = 30; // Set textDelayTime to 30 so the type_text function prints one character at a time in this function to give the user an example of what it will look like
     cout << endl;
-    cout << "Would you like the text to be printed one character at a time for dramatic effect, or all at once for if you don't have much time?" << endl; // Ask the player if they would like the text to be printed one character at a time or all at once
+    type_text("Would you like the text to be printed one character at a time for dramatic effect (like it's currently doing), or all at once for if you don't have much time?"); // Ask the player if they would like the text to be printed one character at a time or all at once
+    cout << endl;
     cout << endl;
     cout << "Enter 1 for the text to be printed one character at a time." << endl;
     cout << endl;
@@ -88,7 +90,8 @@ void set_text_delay_time() {
     }
 }
 
-Location make_choice() { // Function to take user input, do different things depending on input, and then return what the new currentLocation is
+// Function to take user input, do different things depending on input, and then return what the new currentLocation is
+Location make_choice() { 
     string playerChoice; // String for player input
     bool optionFound = false; // boolean to say if what the player inputted was one of the options available to them
 
@@ -169,7 +172,8 @@ Location make_choice() { // Function to take user input, do different things dep
    
 }
 
-void type_text(const string& text) // Function to output text one character at a time. This solution was taken from https://stackoverflow.com/questions/33882822/output-letters-one-at-a-time-in-c
+// Function to output text one character at a time.
+void type_text(const string& text) 
 {
     // loop through each character in the text
     for (size_t i = 0; i < text.size(); ++i)
@@ -182,7 +186,8 @@ void type_text(const string& text) // Function to output text one character at a
     }
 }
 
-bool encounter_npc(NPC npc) { // Function to be ran when the player talks to an NPC
+// Function to be ran when the player talks to an NPC
+bool encounter_npc(NPC npc) { 
     system("cls");
     npc.print_npc_info(); // Prints out the npc info using the function print_npc_info() (declared in NPC.cpp)
     if (npc.get_npc_dialogue_func() == 1) { // Runs the dialogue function of the current npc and checks if it returns 1
@@ -194,7 +199,8 @@ bool encounter_npc(NPC npc) { // Function to be ran when the player talks to an 
     
 }
 
-string battle(NPC opponent) // Function to start a turn based battle with an NPC. Takes in an instance of the NPC class as a parameter
+// Function to start a turn based battle with an NPC. Takes in an instance of the NPC class as a parameter
+string battle(NPC opponent) 
 {
     string result = " "; // String that gets returned at the end of the function. Will either be won or lost, or emtpy if the player escapes the battle
     while (opponent.get_npc_health() > 0) // Loop that runs until you defeat the NPC
@@ -262,7 +268,7 @@ string battle(NPC opponent) // Function to start a turn based battle with an NPC
         }
         else if (attackChoice == 2) // If the choice was 1
         {
-            if (rand() % 10 >= 5) { // A 50/50 chance to run this line
+            if (rand() % 10 >= 1) { // An 90% chance to run this line
                 if (player.get_player_health() < 100) { // If the player isn't already at full health
                     type_text("You successfully healed yourself for " + to_string(player.get_player_level() * 10) + " health"); // Output that you healed yourself for 10 times your level
                     player.set_player_health(player.get_player_health() + (player.get_player_level() * 10)); // Increase the player's health
@@ -321,7 +327,8 @@ string battle(NPC opponent) // Function to start a turn based battle with an NPC
 
 }
 
-int attack() // Function that runs when the player attacks in the battle function
+// Function that runs when the player attacks in the battle function
+int attack() 
 {
     int choice; // Create a choice variable
 
@@ -378,7 +385,8 @@ int attack() // Function that runs when the player attacks in the battle functio
     return choice; // Returns the choice the player made
 }
 
-void level_up() { // Function to level up the player
+// Function to level up the player
+void level_up() { 
     type_text("What this?..."); // Text for dramatic effect with pauses7
     this_thread::sleep_for(chrono::milliseconds(sleepTime));
     cout << endl;
@@ -398,7 +406,8 @@ void level_up() { // Function to level up the player
     _getch();
 }
 
-void lose_game() { // Function for if the player loses the game
+// Function for if the player loses the game
+void lose_game() { 
     cout << endl;
     cout << "YOU LOSE HAHAH SUCKER!" << endl; // Some rather mean text telling the player they lost
     this_thread::sleep_for(chrono::milliseconds(sleepTime));
@@ -408,7 +417,9 @@ void lose_game() { // Function for if the player loses the game
     exit(0); // After the uses presses a key, exit the game
 }
 
-void win_game() { // Function for if the player wins the game
+// Function for if the player wins the game
+void win_game() { 
+    cout << endl;
     type_text("Congratulations, " + player.get_player_name() + " you have won the game. As a prize, you now get to grade this work! Hope you enjoyed."); // Tell the player they won
     this_thread::sleep_for(chrono::milliseconds(sleepTime));
     cout << "Press a key to end the game." << endl;
@@ -417,8 +428,8 @@ void win_game() { // Function for if the player wins the game
     exit(0); // Exit the game after the player presses a key
 }
 
-
-int shady_man_dialogue(){ // Specific NPC dialogue function. Each NPC has their own dialogue function containing outputs and inputs allowing the player to have a conversation with the NPC.
+// Specific NPC dialogue function. Each NPC has their own dialogue function containing outputs and inputs allowing the player to have a conversation with the NPC.
+int shady_man_dialogue(){ 
     type_text("Shady Man: What you lookin at? punk."); 
     cout << endl;
     cout << endl;
@@ -434,6 +445,7 @@ int shady_man_dialogue(){ // Specific NPC dialogue function. Each NPC has their 
         string playerChoice; // Variable for the player's choice
         cin.clear();
         getline(cin, playerChoice); // Take input
+        cout << endl;
         transform(playerChoice.begin(), playerChoice.end(), playerChoice.begin(), ::tolower); // Set it to lowercase so it doesn't matter if the user inputted capitals or not
         if (playerChoice == "your beautiful face kind sir") { // If the first option was chosen
             type_text("Shady Man: Why... thank you *blushes*... I still ain't giving you this key though!"); // Output text and go back to the start of the while loop
@@ -441,7 +453,8 @@ int shady_man_dialogue(){ // Specific NPC dialogue function. Each NPC has their 
             cout << endl;
         }
         else if(playerChoice == "give me your key") { // If the second option was chosen
-            type_text("NUH UH. LET'S FIGHT!");
+            type_text("Shady Man: NUH UH. LET'S FIGHT!");
+            cout << endl;
             cout << endl;
             cout << "Press any key to start the fight." << endl;
             cin.clear();
@@ -449,7 +462,8 @@ int shady_man_dialogue(){ // Specific NPC dialogue function. Each NPC has their 
             break; // Break out of the while loop
         }
         else if (playerChoice == "fight me coward") { // If the third option was chosen
-            type_text("but that's really mean... ok I guess..."); 
+            type_text("Shady Man: but that's really mean... ok I guess..."); 
+            cout << endl;
             cout << endl;
             cout << "Press any key to start the fight." << endl;
             cin.clear();
@@ -466,8 +480,10 @@ int shady_man_dialogue(){ // Specific NPC dialogue function. Each NPC has their 
     if (battleResult == "won") { // If the result returned was won
         type_text("Shady Man: You... you killed me? GOODBYE CRUEL WORLD!"); // Type some text
         cout << endl;
+        cout << endl;
         player.add_to_inventory("warehouse key"); // Add the "warehouse key" item to the player's inventory
         type_text("You have gained +1 warehouse key"); // Tell the player they gained the key
+        cout << endl;
         cout << "\n" << "Press a key to continue...";
         cin.clear();
         _getch(); // Pause until a key is pressed
@@ -484,7 +500,8 @@ int shady_man_dialogue(){ // Specific NPC dialogue function. Each NPC has their 
     
 }
 
-int warehouse_boss_dialogue() { // Specific dialogue function for the big warehouse boss NPC. Very similar to the shady_man_dialogue() function. It prints some text, takes the user's input, and then runs the battle function
+// Specific dialogue function for the big warehouse boss NPC. Very similar to the shady_man_dialogue() function. It prints some text, takes the user's input, and then runs the battle function
+int warehouse_boss_dialogue() { 
     type_text("Big Warehouse Boss: Well well well... You've finally found me... the big boss at the end of the game.");
     this_thread::sleep_for(chrono::milliseconds(sleepTime));
     cout << endl;
@@ -499,7 +516,11 @@ int warehouse_boss_dialogue() { // Specific dialogue function for the big wareho
     getline(cin >> ws, playerChoice);
     cout << endl;
     type_text("Big Warehouse Boss: Those words you just said... they hurt me... Right in my heart... I'm going to kill you now!");
-    this_thread::sleep_for(chrono::milliseconds(sleepTime));
+    cout << endl;
+    cout << endl;
+    cout << "Press any key to start the fight." << endl;
+    cin.clear();
+    _getch();
     string battleResult = battle(bigWarehouseBoss);
     if (battleResult == "won") {
         type_text("Big Warehouse Boss: Well I uh... I may have overestimated myself... Now I'm dead. I guess you win the game. Congrats.");

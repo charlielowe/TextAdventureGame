@@ -10,7 +10,7 @@ Location house = Location("House", "| H O U S E |", "You are inside your house. 
 
 //----------------------------------------------------------------------------------------
 
-Location street = Location("Street", "| S T R E E T |", "You walk down a dark street. There is a bar on one side and a big warehouse on the other.", { "House", "Warehouse", "Bar"}, &defaultNPC);
+Location street = Location("Street", "| S T R E E T |", "You walk down a dark street. There is a big warehouse on one side and a bar on the other.", { "House", "Warehouse", "Bar"}, &defaultNPC);
 
 //----------------------------------------------------------------------------------------
 
