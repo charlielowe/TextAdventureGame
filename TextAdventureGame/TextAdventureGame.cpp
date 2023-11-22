@@ -23,6 +23,7 @@ int sleepTime = 1000; // A varaible that is passed into the sleep_for() function
 
 int main()
 {
+    srand(time(0)); // Set the random number seed to time which is constantly changing, this is so the random numbers aren't the same each time
     set_text_delay_time();
     system("cls");
     cout << R"(
@@ -228,14 +229,13 @@ string battle(NPC opponent)
         cout << endl;
         this_thread::sleep_for(chrono::milliseconds(sleepTime));
 
-        int dodgeChance = rand() % 100; // Creates a variable called dodgechance which is a random number from 0 - 100
-        if (dodgeChance <= 20) // If the variable is less than 20, or 20% of the time this line runs
+        if ((rand() % 100) <= 20) // If a random number between 0 and 99 is less than or equal to 20, this line runs
         {
             type_text("You closed your eyes just in time to avoid looking at your opponents sick moves, you don't take any damage"); // Say that you don't take any damage
             cout << endl;
             cout << endl;
         }
-        else // 80% of the time
+        else // If the random number was over 20
         {
             type_text("Your opponent's moves were too fire, you take " + to_string(oppDamage) + " damage!"); // Output how much damage you take
             cout << endl;
@@ -266,9 +266,9 @@ string battle(NPC opponent)
             cout << endl;
             type_text("Your opponent's health is now " + to_string(opponent.get_npc_health())); // Output the NPC's new health
         }
-        else if (attackChoice == 2) // If the choice was 1
+        else if (attackChoice == 2) // If the choice was 2
         {
-            if (rand() % 10 >= 1) { // An 90% chance to run this line
+            if ((rand() % 10) >= 2) { // If a random number between 0 and 9 is bigger than or equal to 2 this line runs
                 if (player.get_player_health() < 100) { // If the player isn't already at full health
                     type_text("You successfully healed yourself for " + to_string(player.get_player_level() * 10) + " health"); // Output that you healed yourself for 10 times your level
                     player.set_player_health(player.get_player_health() + (player.get_player_level() * 10)); // Increase the player's health
@@ -281,7 +281,7 @@ string battle(NPC opponent)
                 }
             }
             else {
-                type_text("Your dance moves weren't good enough, you were unsuccessful in healing yourself."); // If you fail the 50/50, do nothing
+                type_text("Your dance moves weren't good enough, you were unsuccessful in healing yourself.");
             }
         }
         else if (attackChoice == 3) { // If the choice was 3
@@ -422,6 +422,8 @@ void win_game() {
     cout << endl;
     type_text("Congratulations, " + player.get_player_name() + " you have won the game. As a prize, you now get to grade this work! Hope you enjoyed."); // Tell the player they won
     this_thread::sleep_for(chrono::milliseconds(sleepTime));
+    cout << endl;
+    cout << endl;
     cout << "Press a key to end the game." << endl;
     cin.clear();
     _getch();
